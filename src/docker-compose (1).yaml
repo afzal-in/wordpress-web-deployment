@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  #database service
+  mysql_db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Afzal123
+      MYSQL_DATABASE: wordpress_database
+      MYSQL_USER: afzal
+      MYSQL_PASSWORD: Afzal123
+    volumes:
+      - mysql_vol:/var/lib/mysql
+
+
+  #wordpress
+  wordpress:
+   depends_on:
+     - mysql_db
+   image: wordpress
+   restart: always
+   ports:
+     - "8080:80"
+   environment:
+     WORDPRESS_DB_HOST: mysql_db:3306
+     WORDPRESS_DB_USER: afzal
+     WORDPRESS_DB_PASSWORD: Afzal123
+     WORDPRESS_DB_NAME: wordpress_database
+   volumes:
+     - wordpress:/var/www/html
+
+
+volumes:
+  mysql_vol:
+  wordpress:
